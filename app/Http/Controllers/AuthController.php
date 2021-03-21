@@ -54,9 +54,8 @@ class AuthController extends Controller
 
     public function Logout(){
         auth()->user()->tokens()->delete();
-
-        return [
+        return $this->success([
             'message' => 'Tokens Revoked'
-        ];
+        ]);
     }
 }
