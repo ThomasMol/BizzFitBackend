@@ -15,6 +15,7 @@ class User extends Authenticatable
 
     // Use this if your using UUIDs
     protected $keyType = 'string';
+    
     public $incrementing = false;
 
     /**
