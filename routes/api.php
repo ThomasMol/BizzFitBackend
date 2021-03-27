@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MentalStateController;
 use App\Http\Controllers\PhysicalActivityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('physicalactivities',PhysicalActivityController::class);
+    Route::apiResource('mentalstates',MentalStateController::class);
+
 
     Route::get('/user', function(Request $request) {
         return auth()->user();

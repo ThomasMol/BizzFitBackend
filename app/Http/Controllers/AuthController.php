@@ -8,6 +8,7 @@ use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -15,12 +16,18 @@ class AuthController extends Controller
     use ApiResponser;
 
     public function Register(Request $request){
-        $attr = $request->validate([
+        $validator =  Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6'
         ]);
+
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), 200);
+        }
+
+        $attr = $request->all();
 
         $user = User::create([
             'id' => (string) Str::uuid(),
@@ -38,22 +45,27 @@ class AuthController extends Controller
     }
 
     public function Login(Request $request){
-        $attr = $request->validate([
-            'email' => 'required|string|email|',
+
+        $validator =  Validator::make($request->all(), [
+            'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
 
-        if (!Auth::attempt($attr)) {
-            return $this->error('Credentials not match', 401);
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), 200);
+        }
+
+        if (!Auth::attempt($request->all())) {
+            return $this->error('Oops! Your email and password combination did not match', 401);
         }
 
         return $this->success([
-            'token' => auth()->user()->createToken('API Token')->plainTextToken
+            'token' => Auth::user()->createToken('API Token')->plainTextToken
         ]);
     }
 
     public function Logout(){
-        auth()->user()->tokens()->delete();
+        Auth::user()->tokens()->delete();
         return $this->success([
             'message' => 'Tokens Revoked'
         ]);
