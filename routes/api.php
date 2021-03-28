@@ -23,15 +23,15 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    // Logged in Auth and user/profile routes
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'getProfile']);
 
     Route::apiResource('physicalactivities',PhysicalActivityController::class);
     Route::apiResource('mentalstates',MentalStateController::class);
 
 
-    Route::get('/user', function(Request $request) {
-        return auth()->user();
-    });
+
 
 
 });

@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use PDO;
 
 class AuthController extends Controller
 {
     use ApiResponser;
 
-    public function Register(Request $request){
+    public function register(Request $request){
         $validator =  Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -44,7 +45,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function Login(Request $request){
+    public function login(Request $request){
 
         $validator =  Validator::make($request->all(), [
             'email' => 'required|string|email',
@@ -64,10 +65,15 @@ class AuthController extends Controller
         ]);
     }
 
-    public function Logout(){
+    public function logout(){
         Auth::user()->tokens()->delete();
         return $this->success([
             'message' => 'Tokens Revoked'
         ]);
+    }
+
+    public function getProfile(){
+        $user = Auth::user();
+        return $this->success($user);
     }
 }
