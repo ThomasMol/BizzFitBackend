@@ -21,7 +21,7 @@ class MentalStateController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $mentalState = MentalState::where('user_id', $user_id)->get();
+        $mentalState = MentalState::where('user_id', $user_id)->orderBy('date_time','desc')->get();
         return $this->success($mentalState);
     }
 

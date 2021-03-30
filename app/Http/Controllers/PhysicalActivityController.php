@@ -21,7 +21,7 @@ class PhysicalActivityController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $physicalActivities = PhysicalActivity::where('user_id', $user_id)->orderBy('time_seconds','desc')->get();
+        $physicalActivities = PhysicalActivity::where('user_id', $user_id)->orderBy('date_time','desc')->get();
         return $this->success($physicalActivities);
     }
 

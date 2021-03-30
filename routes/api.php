@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MentalStateController;
 use App\Http\Controllers\PhysicalActivityController;
+use App\Http\Controllers\RankingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,10 +28,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'getProfile']);
 
-    Route::apiResource('physicalactivities',PhysicalActivityController::class);
-    Route::apiResource('mentalstates',MentalStateController::class);
+    // Resource routes
+    Route::apiResource('physicalactivities', PhysicalActivityController::class);
+    Route::apiResource('mentalstates', MentalStateController::class);
 
-
+    // Ranking routes
+    Route::get('/toptenranking', [RankingController::class, 'getTopTen']);
 
 
 
