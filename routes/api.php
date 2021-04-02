@@ -33,7 +33,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('mentalstates', MentalStateController::class);
 
     // Ranking routes
-    Route::get('/toptenranking', [RankingController::class, 'getTopTen']);
+    Route::get('/ranking/topten', [RankingController::class, 'getTopTen']);
+    Route::get('/ranking/myorganization', [RankingController::class, 'getTopTenOfOrganization']);
+    Route::get('/ranking/myranking', [RankingController::class, 'getMyRanking']);
+    Route::get('/ranking/myorganizationranking', [RankingController::class, 'getMyOrganizationRanking']);
 
 
 
