@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InsightsController;
 use App\Http\Controllers\MentalStateController;
 use App\Http\Controllers\PhysicalActivityController;
 use App\Http\Controllers\RankingController;
@@ -38,6 +39,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/ranking/myranking', [RankingController::class, 'getMyRanking']);
     Route::get('/ranking/myorganizationranking', [RankingController::class, 'getMyOrganizationRanking']);
 
+    // Insights routes
+    Route::get('/insights/mentalstate', [InsightsController::class, 'getMentalStateInsights']);
 
 
 });
