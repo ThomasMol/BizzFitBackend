@@ -25,7 +25,7 @@ class MentalStateFactory extends Factory
             'id'=> $this->faker->uuid,
             //'user_id' => $this->faker->uuid ,
             'points' => $this->faker->numberBetween(25,200),
-            'state' => $this->faker->numberBetween(0,4),
+            'state' => $this->faker->biasedNumberBetween(0,4, 'sqrt'),
             'date_time' => $this->faker->dateTimeBetween('-10 days', 'now')
         ];
     }

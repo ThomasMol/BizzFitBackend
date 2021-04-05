@@ -42,12 +42,12 @@ class InsightsController extends Controller
         $averagePhysicalToday = $mentalStates->where('date_time','>=',$today)->avg('points');
 
         return $this->success([
-            'average_mental_month' => round($averageMentalMonth, 1),
-            'average_mental_week' => round($averageMentalWeek, 1),
-            'average_mental_today' => round($averageMentalToday, 1),
-            'average_physical_month' => round($averagePhysicalMonth, 1),
-            'average_physical_week' => round($averagePhysicalWeek, 1),
-            'average_physical_today' => round($averagePhysicalToday, 1),
+            'average_mental_month' => round($averageMentalMonth),
+            'average_mental_week' => round($averageMentalWeek),
+            'average_mental_today' => round($averageMentalToday),
+            'average_physical_month' => round($averagePhysicalMonth),
+            'average_physical_week' => round($averagePhysicalWeek),
+            'average_physical_today' => round($averagePhysicalToday),
         ]);
     }
 }
