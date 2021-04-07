@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InsightsController;
 use App\Http\Controllers\MentalStateController;
@@ -42,7 +43,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Insights routes
     Route::get('/insights/mentalstate', [InsightsController::class, 'getMentalStateInsights']);
 
-
+    // General activity roues
+    Route::get('/activities/week', [ActivityController::class, 'getActivitiesWeek']);
 });
 
 

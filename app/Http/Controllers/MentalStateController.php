@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MentalState;
 use App\Traits\ApiResponser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -21,8 +22,8 @@ class MentalStateController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $mentalState = MentalState::where('user_id', $user_id)->orderBy('date_time','desc')->get();
-        return $this->success($mentalState);
+        $mentalStates = MentalState::where('user_id', $user_id)->orderBy('date_time','desc')->get();
+        return $this->success($mentalStates);
     }
 
     /**
