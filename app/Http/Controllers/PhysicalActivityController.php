@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\PhysicalActivity;
+use App\Models\User;
 use App\Traits\ApiResponser;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -38,9 +40,13 @@ class PhysicalActivityController extends Controller
             'time' => 'required|numeric|max:255',
             'date_time' => 'required|date'
         ]);
-
         // TODO Calculate points
-        $points = 0;
+        $faker = Factory::create();
+        $points = $faker->numberBetween(25,85);
+        $user_id = Auth::user()->id;
+        $user = User::where('id',$user_id)->first();
+        $user->score = $user->score + $points;
+        $user->save();
 
         $physicalActivity = PhysicalActivity::create([
             'id' => (string) Str::uuid(),

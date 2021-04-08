@@ -74,7 +74,12 @@ class AuthController extends Controller
     }
 
     public function getProfile(){
-        $user = Auth::user();
-        return $this->success($user);
+        $user_id = Auth::user()->id;
+        $data = User::leftJoin('organizations','organizations.id','users.organization_id')
+        ->where('users.id',$user_id)
+        ->select('users.*', 'organizations.score as org_score', 'organizations.name as org_name')
+        ->first();
+        return $this->success($data);
     }
+
 }

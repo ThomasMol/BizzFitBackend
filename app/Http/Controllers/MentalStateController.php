@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\MentalState;
+use App\Models\User;
 use App\Traits\ApiResponser;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -40,7 +42,12 @@ class MentalStateController extends Controller
         ]);
 
         // TODO Calculate points
-        $points = 0;
+        $faker = Factory::create();
+        $points = $faker->numberBetween(25,85);
+        $user_id = Auth::user()->id;
+        $user = User::where('id',$user_id)->first();
+        $user->score = $user->score + $points;
+        $user->save();
 
         $mentalState = MentalState::create([
             'id' => (string) Str::uuid(),
