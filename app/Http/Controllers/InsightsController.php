@@ -14,7 +14,8 @@ class InsightsController extends Controller
 {
     use ApiResponser;
 
-    public function getMentalStateInsights(){
+    // TODO refactor this to separate functions, too much functionality for one method now
+    public function getInsights(){
         $lastMonth = Carbon::now('Europe/Amsterdam')->subMonth();
         $lastWeek = Carbon::now('Europe/Amsterdam')->subWeek();
         $today = Carbon::now('Europe/Amsterdam')->subDay();
@@ -30,6 +31,19 @@ class InsightsController extends Controller
         $averageMentalMonth = $mentalStates->avg('state');
         $averageMentalWeek = $mentalStates->where('date_time','>=',$lastWeek)->avg('state');
         $averageMentalToday = $mentalStates->where('date_time','>=',$today)->avg('state');
+
+        $groupedToday = MentalState::leftJoin('users','mental_states.user_id','users.id')
+        ->where('users.organization_id', $organization_id)
+        ->select('mental_states.state', 'mental_states.date_time', 'mental_states.points')
+        ->where('date_time','>=',$today)->orderBy('state','asc')->select('state', DB::raw('count(*) as total'))->groupBy('state')->get();
+        $groupedWeek = MentalState::leftJoin('users','mental_states.user_id','users.id')
+        ->where('users.organization_id', $organization_id)
+        ->select('mental_states.state', 'mental_states.date_time', 'mental_states.points')
+        ->where('date_time','>=',$lastWeek)->orderBy('state','asc')->select('state', DB::raw('count(*) as total'))->groupBy('state')->get();
+        $groupedMonth = MentalState::leftJoin('users','mental_states.user_id','users.id')
+        ->where('users.organization_id', $organization_id)
+        ->select('mental_states.state', 'mental_states.date_time', 'mental_states.points')
+        ->where('date_time','>=',$lastMonth)->orderBy('state','asc')->select('state', DB::raw('count(*) as total'))->groupBy('state')->get();
 
         // Get physical activity stats
         $mentalStates = PhysicalActivity::leftJoin('users','physical_activities.user_id','users.id')
@@ -48,6 +62,9 @@ class InsightsController extends Controller
             'average_physical_month' => round($averagePhysicalMonth),
             'average_physical_week' => round($averagePhysicalWeek),
             'average_physical_today' => round($averagePhysicalToday),
+            'grouped_month' => $groupedMonth,
+            'grouped_week' => $groupedWeek,
+            'grouped_today' => $groupedToday,
         ]);
     }
 }

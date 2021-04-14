@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/ranking/myorganizationranking', [RankingController::class, 'getMyOrganizationRanking']);
 
     // Insights routes
-    Route::get('/insights/mentalstate', [InsightsController::class, 'getMentalStateInsights']);
+    Route::get('/insights/get', [InsightsController::class, 'getInsights']);
 
     // General activity roues
     Route::get('/activities/week', [ActivityController::class, 'getActivitiesWeek']);
