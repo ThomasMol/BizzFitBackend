@@ -19,6 +19,7 @@ class PhysicalActivity extends Model
         'type',
         'points',
         'time_seconds',
-        'date_time'
+        'date_time',
+        'fitness_api_id'
     ];
 }

@@ -23,7 +23,7 @@ class PhysicalActivityController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $physicalActivities = PhysicalActivity::where('user_id', $user_id)->orderBy('date_time','desc')->get();
+        $physicalActivities = PhysicalActivity::where('user_id', $user_id)->orderBy('date_time','desc')->limit(25)->get();
         return $this->success($physicalActivities);
     }
 
@@ -37,8 +37,9 @@ class PhysicalActivityController extends Controller
     {
         $attr = $request->validate([
             'type' => 'required|string|max:255',
-            'time' => 'required|numeric|max:255',
-            'date_time' => 'required|date'
+            'time' => 'required|numeric|max:99999',
+            'date_time' => 'required|date',
+            'fitness_api_id' => 'string'
         ]);
         // TODO Calculate points
         $faker = Factory::create();
@@ -55,6 +56,7 @@ class PhysicalActivityController extends Controller
             'points' => $points,
             'time_seconds' => $attr['time'],
             'date_time' => $attr['date_time'],
+            'fitness_api_id' => $attr['fitness_api_id'],
         ]);
 
         return $this->success([

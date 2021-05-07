@@ -15,7 +15,7 @@ class User extends Authenticatable
 
     // Use this if your using UUIDs
     protected $keyType = 'string';
-    
+
     public $incrementing = false;
 
     /**
@@ -31,7 +31,8 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'permission_level'
+        'permission_level',
+        'score'
     ];
 
     /**
@@ -52,4 +53,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function organization(){
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function mentalStates(){
+        return $this->hasMany(MentalState::class);
+    }
+
+    public function physicalActivities(){
+        return $this->hasMany(PhysicalActivity::class);
+    }
 }
