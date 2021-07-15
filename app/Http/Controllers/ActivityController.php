@@ -24,6 +24,4 @@ class ActivityController extends Controller
         return $this->success([$mentalStates, $physicalActivities]);
     }
 
-
-
 }
